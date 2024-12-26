@@ -4,13 +4,40 @@ const connectDb = require('./config/dataBase');
 const app = express();
 const User = require('./models/user');
 
-app.post('/user',async (req,res)=>{
-    const user = new User({
-        firstName:'Amog',
-        lastName:'Guntha',
-        emailId:'heythisisamog@gmail.com',
-        password:'amog123'
-    });
+
+app.use(express.json());
+
+app.get('/user',async (req,res)=>{
+    const userEmail = req.body.emailId;
+    try{
+        const user = await User.find({
+            emailId:userEmail
+        })
+        if(user.length===0){
+            res.status(404).send('User not found');
+        }else{
+            res.send(user);
+        }
+    }catch(err){
+        res.status(400).send('Something didnt work');
+    }
+})
+
+app.get('/feed',async(req,res)=>{
+    try{
+        const users = await User.find({});
+        if(users.length===0){
+            res.status(404).send('No users found');
+        }else{
+            res.send(users);
+        }
+    }catch(err){
+        res.status(400).send('Something didnt work');
+    }
+})
+
+app.post('/signUp',async (req,res)=>{
+    const user = new User(req.body);
     await user.save();
     res.send('User added succesfully');
 })
