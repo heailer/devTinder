@@ -31,4 +31,17 @@ function validatePassword(password){
     }
 }
 
-module.exports = validatePassword;
+const validateUpdate = (req)=>{
+    console.log(req.body);
+    const validUpdatesFields = ['firstName','lastName','age','gender','photoUrl','about','skills'];
+    const requestedUpdates = req.body;
+    const isValidUpdate = Object.keys(requestedUpdates).every((field)=>
+        validUpdatesFields.includes(field)
+    )
+    console.log(isValidUpdate);
+    return isValidUpdate;
+}
+
+module.exports = {
+    validatePassword,validateUpdate
+}
