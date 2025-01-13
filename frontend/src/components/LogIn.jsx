@@ -8,19 +8,24 @@ import BASE_URL from "../utils/constants";
 const LogIn = () => {
   const [emailId, setEmailId] = useState("heythisisamog@gmail.com");
   const [password, setPassword] = useState("Bot@12345");
+  const [error, setError] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onClickLogin = async () => {
-    const res = await axios.post(
-      BASE_URL + "/login",
-      {
-        emailId,
-        password,
-      },
-      { withCredentials: true }
-    );
-    dispatch(addUser(res.data));
-    navigate("/");
+    try {
+      const res = await axios.post(
+        BASE_URL + "/login",
+        {
+          emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+      dispatch(addUser(res.data));
+      navigate("/");
+    } catch (err) {
+      setError(err.response.data);
+    }
   };
 
   return (
@@ -50,14 +55,16 @@ const LogIn = () => {
               className="input input-bordered w-full max-w-xs"
             />
           </label>
+
           <div className="card-actions justify-end">
             <button
-              className="btn btn-primary mx-auto my-4"
+              className="btn btn-primary mx-auto my-2"
               onClick={onClickLogin}
             >
               LogIn
             </button>
           </div>
+          <p className="text-red-500">{error}</p>
         </div>
       </div>
     </div>
