@@ -23,7 +23,7 @@ profileRouter.patch("/profile/edit", (req, res) => {
       const loggedUser = req.user;
       Object.keys(req.body).forEach((key) => (loggedUser[key] = req.body[key]));
       loggedUser.save();
-      res.send("Update succesful!");
+      res.send(loggedUser);
     }
   } catch (err) {
     res.status(400).send("Error: " + err.message);

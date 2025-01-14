@@ -15,6 +15,12 @@ app.use(
     credentials: true,
   })
 );
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  next();
+});
 app.use(cookieparser());
 app.use(express.json());
 

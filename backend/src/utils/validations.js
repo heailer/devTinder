@@ -32,7 +32,6 @@ function validatePassword(password) {
 }
 
 const validateUpdate = (req) => {
-  console.log(req.body);
   const validUpdatesFields = [
     "firstName",
     "lastName",
@@ -41,12 +40,13 @@ const validateUpdate = (req) => {
     "photoUrl",
     "about",
     "skills",
+    "occupation",
+    "location",
   ];
   const requestedUpdates = req.body;
   const isValidUpdate = Object.keys(requestedUpdates).every((field) =>
     validUpdatesFields.includes(field)
   );
-  console.log(isValidUpdate);
   return isValidUpdate;
 };
 

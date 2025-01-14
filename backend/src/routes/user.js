@@ -3,6 +3,8 @@ const userRouter = express.Router();
 const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
+const safeData =
+  "firstName lastName age gender skills about photoUrl occupation location";
 
 userRouter.use("/", userAuth);
 
@@ -13,10 +15,8 @@ userRouter.get("/user/pendingRequests", async (req, res) => {
       toUserId: loggedUser._id,
       status: "intrested",
     }).populate("fromUserId", ["firstName", "lastName"]);
-    console.log(pendingConnections);
     res.json({ message: "Pending Connections", pendingConnections });
   } catch (err) {
-    console.log(err.message);
     res.status(400).send("Error: " + err.message);
   }
 });
@@ -30,8 +30,8 @@ userRouter.get("/user/connections", async (req, res) => {
         { toUserId: loggedUser._id, status: "accepted" },
       ],
     })
-      .populate("fromUserId", "firstName lastName age gender skills about")
-      .populate("toUserId", "firstName lastName age gender skills about");
+      .populate("fromUserId", safeData)
+      .populate("toUserId", safeData);
 
     const data = connections.map((row) => {
       if (row.fromUserId.toString() === loggedUser._id.toString()) {
@@ -57,24 +57,21 @@ userRouter.get("/user/feed", async (req, res) => {
     const connections = await ConnectionRequest.find({
       $or: [{ fromUserId: loggedUser._id }, { toUserId: loggedUser._id }],
     }).select("fromUserId toUserId");
-    //console.log(connections);
 
     const hideUsersFromFeed = new Set();
     connections.forEach((connection) => {
       hideUsersFromFeed.add(connection.fromUserId.toString());
       hideUsersFromFeed.add(connection.toUserId.toString());
     });
-    console.log(hideUsersFromFeed);
     const users = await User.find({
       $and: [
         { _id: { $nin: Array.from(hideUsersFromFeed) } },
         { _id: { $ne: loggedUser._id } },
       ],
     })
-      .select("firstName lastName age about skills")
+      .select(safeData)
       .skip(skip)
       .limit(limit);
-    console.log(users);
     res.json({ users });
   } catch (err) {
     res.status(400).send("Error: " + err.message);

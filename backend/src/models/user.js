@@ -36,18 +36,22 @@ const userSchema = new mongoose.Schema(
       validate(value) {
         const result = validatePassword(value);
         if (result.isValid === false) {
-          console.log(result.error);
           throw new Error(result.error.join(","));
         }
       },
     },
     age: {
       type: Number,
+      validate(value) {
+        if (typeof value !== "number") {
+          throw new Error("Enter valid age");
+        }
+      },
     },
     gender: {
       type: String,
       validate(value) {
-        if (["male", "female", "others"].includes(value) === false) {
+        if (["Male", "Female", "Others"].includes(value) === false) {
           throw new Error("Gender not available");
         }
       },
@@ -68,6 +72,12 @@ const userSchema = new mongoose.Schema(
     },
     skills: {
       type: [String],
+    },
+    occupation: {
+      type: String,
+    },
+    location: {
+      type: String,
     },
   },
   { timestamps: true }

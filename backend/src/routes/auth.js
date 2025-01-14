@@ -12,7 +12,6 @@ authRouter.post("/signUp", async (req, res) => {
       throw new Error(validPassword.error);
     }
     const passwordHash = await bcrypt.hash(password, 10);
-    //console.log(passwordHash);
     const user = new User({
       firstName,
       lastName,

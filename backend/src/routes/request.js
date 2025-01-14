@@ -29,7 +29,6 @@ requestsRouter.post("/request/send/:status/:toUserId", async (req, res) => {
     });
 
     if (existingConnectionRequest) {
-      console.log("Connection sent");
       return res.status(400).send("Connection already sent!");
     }
 
