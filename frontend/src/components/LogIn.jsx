@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import BASE_URL from "../utils/constants";
 
 const LogIn = () => {
-  const [emailId, setEmailId] = useState("heythisisamog@gmail.com");
-  const [password, setPassword] = useState("Bot@12345");
+  const [emailId, setEmailId] = useState("mark@gmail.com");
+  const [password, setPassword] = useState("Mark@12345");
   const [error, setError] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,13 +24,13 @@ const LogIn = () => {
       dispatch(addUser(res.data));
       navigate("/");
     } catch (err) {
-      setError(err.response.data);
+      setError(err?.response?.data);
     }
   };
 
   return (
     <div className="flex justify-center my-12">
-      <div className="card bg-base-300 w-96 shadow-xl h-[410px]">
+      <div className="card bg-base-300 w-96 shadow-xl h-[480px]">
         <div className="card-body">
           <h2 className="card-title mx-auto text-3xl text-white">Login</h2>
           <label className="form-control w-full max-w-xs">
@@ -58,7 +58,7 @@ const LogIn = () => {
 
           <div className="card-actions justify-end">
             <button
-              className="btn btn-primary mx-auto my-2"
+              className="btn btn-primary mx-auto my-10"
               onClick={onClickLogin}
             >
               LogIn

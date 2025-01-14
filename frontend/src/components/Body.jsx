@@ -23,11 +23,11 @@ const Body = () => {
     fetchData();
   }, []);
   return (
-    <>
+    <div className="min-h-screen ">
       <NavBar />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 

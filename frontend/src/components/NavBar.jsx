@@ -19,7 +19,7 @@ const NavBar = () => {
       );
       console.log(res);
       dispatch(removeUser());
-      navigate("/login");
+      navigate("/login", { replace: true });
     } catch (err) {
       console.log(err.message);
     }
