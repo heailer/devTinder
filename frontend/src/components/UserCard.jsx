@@ -1,6 +1,6 @@
-const UserCard = ({ user }) => {
+const UserCard = ({ user, connectionsCard }) => {
   return user ? (
-    <div className="card bg-base-300 w-96 shadow-xl">
+    <div className="card bg-base-300 w-96 h-[752px] shadow-xl">
       <figure>
         <img
           src={user.photoUrl}
@@ -23,10 +23,12 @@ const UserCard = ({ user }) => {
           <span className="font-bold text-xl">Skills:</span>{" "}
           {user.skills.join(", ")}
         </p>
-        <div className="card-actions justify-center my-4">
-          <button className="btn btn-primary mx-2">Ignore</button>
-          <button className="btn btn-secondary">Intrested</button>
-        </div>
+        {!connectionsCard && (
+          <div className="card-actions justify-center my-4">
+            <button className="btn btn-primary mx-2">Ignore</button>
+            <button className="btn btn-secondary">Intrested</button>
+          </div>
+        )}
       </div>
     </div>
   ) : (
