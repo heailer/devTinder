@@ -14,7 +14,16 @@ userRouter.get("/user/pendingRequests", async (req, res) => {
     const pendingConnections = await ConnectionRequest.find({
       toUserId: loggedUser._id,
       status: "intrested",
-    }).populate("fromUserId", ["firstName", "lastName"]);
+    }).populate("fromUserId", [
+      "firstName",
+      "lastName",
+      "photoUrl",
+      "age",
+      "gender",
+      "location",
+      "about",
+      "skills",
+    ]);
     res.json({ message: "Pending Connections", pendingConnections });
   } catch (err) {
     res.status(400).send("Error: " + err.message);
@@ -33,12 +42,15 @@ userRouter.get("/user/connections", async (req, res) => {
       .populate("fromUserId", safeData)
       .populate("toUserId", safeData);
 
+    console.log(connections);
+
     const data = connections.map((row) => {
-      if (row.fromUserId.toString() === loggedUser._id.toString()) {
-        return row.fromUserId;
+      if (row.fromUserId._id.toString() === loggedUser._id.toString()) {
+        return row.toUserId;
       }
-      return row.toUserId;
+      return row.fromUserId;
     });
+
     res.json({ message: "Connections", data: data });
   } catch (err) {
     res.status(400).send("Error: " + err.message);

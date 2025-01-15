@@ -3,7 +3,7 @@ import axios from "axios"; // Make sure to import axios
 import BASE_URL from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
-import UserCard from "./UserCard";
+import UserCard2 from "./UserCard2";
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Feed = () => {
   return (
     data && (
       <div className="flex justify-center my-10">
-        <UserCard user={data ? data?.users[0] : null} />
+        <UserCard2 user={data ? data?.users[0] : null} />
       </div>
     )
   );

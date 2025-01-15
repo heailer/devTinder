@@ -3,11 +3,12 @@ import BASE_URL from "../utils/constants";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionsSlice";
-import UserCard from "./UserCard";
+import UserCard2 from "./UserCard2";
 
 const Connections = () => {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.connections);
+  console.log(connections);
   const getConnections = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/connections", {
@@ -39,8 +40,8 @@ const Connections = () => {
       <div className="flex flex-wrap">
         {connections.map((connection) => {
           return (
-            <div className="m-3">
-              <UserCard user={connection} connectionsCard={true} />
+            <div className="m-3" key={connection._id}>
+              <UserCard2 user={connection} connectionsCard={true} />
             </div>
           );
         })}
