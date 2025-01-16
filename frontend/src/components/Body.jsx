@@ -23,7 +23,7 @@ const Body = () => {
     fetchData();
   }, []);
   return (
-    <div className="min-h-screen ">
+    <div className="">
       <NavBar />
       <Outlet />
       <Footer />

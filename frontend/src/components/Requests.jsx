@@ -8,7 +8,6 @@ import UserCard from "./UserCard";
 const Requests = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.request);
-  console.log(requests);
   const handleRequests = async (Status, id) => {
     try {
       const res = await axios.post(
@@ -26,7 +25,7 @@ const Requests = () => {
       const res = await axios.get(BASE_URL + "/user/pendingRequests", {
         withCredentials: true,
       });
-      console.log(res.data.pendingConnections);
+
       dispatch(addRequests(res.data.pendingConnections));
     } catch (err) {
       console.log(err.message);
@@ -38,7 +37,7 @@ const Requests = () => {
   if (!requests) return;
   if (requests.length === 0)
     return (
-      <div>
+      <div className="text-center font-bold text-3xl p-4">
         <h1>No Requests found</h1>
       </div>
     );

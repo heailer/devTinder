@@ -8,13 +8,13 @@ import UserCard2 from "./UserCard2";
 const Connections = () => {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.connections);
-  console.log(connections);
+
   const getConnections = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
-      console.log(res.data.data);
+
       dispatch(addConnections(res.data.data));
     } catch (err) {
       console.log(err.message);
@@ -27,8 +27,8 @@ const Connections = () => {
   if (!connections) return;
   if (connections.length === 0)
     return (
-      <div>
-        <h1>No connections found</h1>
+      <div className="text-center font-bold text-3xl p-4">
+        <h1>No Connections found</h1>
       </div>
     );
 

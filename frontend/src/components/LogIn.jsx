@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import BASE_URL from "../utils/constants";
 
 const LogIn = () => {
-  const [emailId, setEmailId] = useState("mark@gmail.com");
-  const [password, setPassword] = useState("Mark@12345");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState();
+  const [isLogIn, setIsLogIn] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onClickLogin = async () => {
@@ -27,12 +30,57 @@ const LogIn = () => {
       setError(err?.response?.data);
     }
   };
+  const onClickSignUp = async () => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/signUp",
+        { firstName, lastName, emailId, password },
+        { withCredentials: true }
+      );
+      dispatch(addUser(res.data.data));
+      navigate("/editProfile");
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className="flex justify-center my-12">
-      <div className="card bg-base-300 w-96 shadow-xl h-[480px]">
+      <div
+        className={`card bg-base-300 w-96 shadow-xl ${
+          isLogIn ? "h-[480px]" : "h-[580px]"
+        }`}
+      >
         <div className="card-body">
-          <h2 className="card-title mx-auto text-3xl text-white">Login</h2>
+          <h2 className="card-title mx-auto text-3xl text-white">
+            {isLogIn ? "Login" : "SignUp"}
+          </h2>
+          {!isLogIn && (
+            <>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">First Name</span>
+                </div>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Last Name</span>
+                </div>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </label>
+            </>
+          )}
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">EmailId</span>
@@ -55,13 +103,15 @@ const LogIn = () => {
               className="input input-bordered w-full max-w-xs"
             />
           </label>
-
+          <button onClick={() => setIsLogIn((val) => !val)}>
+            {isLogIn ? "New User? SignUP here" : "Existing User? Login here"}
+          </button>
           <div className="card-actions justify-end">
             <button
               className="btn btn-primary mx-auto my-10"
-              onClick={onClickLogin}
+              onClick={isLogIn ? onClickLogin : onClickSignUp}
             >
-              LogIn
+              {isLogIn ? "Login" : "SignUp"}
             </button>
           </div>
           <p className="text-red-500">{error}</p>

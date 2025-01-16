@@ -1,4 +1,4 @@
-const UserCard2 = ({ user, connectionsCard }) => {
+const UserCard2 = ({ user, connectionsCard, handleFeed }) => {
   return user ? (
     <div className="card bg-base-300 w-96 h-[852px] shadow-xl">
       <figure>
@@ -29,8 +29,18 @@ const UserCard2 = ({ user, connectionsCard }) => {
         </p>
         {!connectionsCard && (
           <div className="card-actions my-4">
-            <button className="btn btn-primary mx-6">Ignore</button>
-            <button className="btn btn-secondary">Intrested</button>
+            <button
+              className="btn btn-primary mx-6"
+              onClick={() => handleFeed("ignored", user?._id)}
+            >
+              Ignore
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => handleFeed("intrested", user?._id)}
+            >
+              Intrested
+            </button>
           </div>
         )}
       </div>
