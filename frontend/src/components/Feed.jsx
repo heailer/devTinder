@@ -45,7 +45,7 @@ const Feed = () => {
       />
     </div>
   ) : (
-    <div>
+    <div className="text-center font-bold text-3xl p-4 mb-96 mt-64">
       <h1>No feed available at this moment</h1>
     </div>
   );

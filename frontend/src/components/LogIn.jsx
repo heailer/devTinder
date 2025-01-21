@@ -28,6 +28,9 @@ const LogIn = () => {
       navigate("/");
     } catch (err) {
       setError(err?.response?.data);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
     }
   };
   const onClickSignUp = async () => {
@@ -37,10 +40,18 @@ const LogIn = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
+
       dispatch(addUser(res.data.data));
       navigate("/editProfile");
     } catch (err) {
-      console.log(err.message);
+      if (err.status === 400) {
+        console.log("A Bad Request Was Made, Please Check Your Inputs");
+      }
+      const errSignUp = err?.response?.data;
+      setError(errSignUp);
+      setTimeout(() => {
+        setError("");
+      }, 15000);
     }
   };
 
@@ -103,7 +114,15 @@ const LogIn = () => {
               className="input input-bordered w-full max-w-xs"
             />
           </label>
-          <button onClick={() => setIsLogIn((val) => !val)}>
+          <button
+            onClick={() => {
+              setFirstName("");
+              setLastName("");
+              setEmailId("");
+              setPassword("");
+              setIsLogIn((val) => !val);
+            }}
+          >
             {isLogIn ? "New User? SignUP here" : "Existing User? Login here"}
           </button>
           <div className="card-actions justify-end">

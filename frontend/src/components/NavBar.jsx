@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import axios from "axios";
+import { removeConnections } from "../utils/connectionsSlice";
+import { removeAllFeed, removeFeed } from "../utils/feedSlice";
+import { removeRequest } from "../utils/requestSlice";
 
 const NavBar = () => {
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user || null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogOut = async () => {
@@ -19,19 +22,24 @@ const NavBar = () => {
       );
       console.log(res);
       dispatch(removeUser());
-      navigate("/login", { replace: true });
-    } catch (err) {
-      console.log(err.message);
-    }
+      window.location.replace("/login");
+    } catch (err) {}
   };
 
   return (
     <>
       <div className="navbar bg-base-300">
         <div className="flex-1">
-          <Link to={"/"} className="btn btn-ghost text-xl">
-            devTinder
-          </Link>
+          {user && (
+            <Link to={"/"} className="btn btn-ghost text-xl">
+              devTinder
+            </Link>
+          )}
+          {!user && (
+            <Link to={"/login"} className="btn btn-ghost text-xl">
+              devTinder
+            </Link>
+          )}
         </div>
         <div className="flex-none gap-2">
           <div className="form-control"></div>

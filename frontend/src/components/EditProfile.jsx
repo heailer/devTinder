@@ -17,6 +17,7 @@ const EditProfile = () => {
   const [aboutMe, setAboutMe] = useState(user?.about || "");
   const [skills, setSkills] = useState(user?.skills || []);
   const [successMessage, setSuccessMessage] = useState(false);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSaveProfile = async () => {
@@ -28,7 +29,7 @@ const EditProfile = () => {
           firstName,
           lastName,
           occupation,
-          age,
+          age: parseInt(age),
           gender,
           location,
           about: aboutMe,
@@ -44,6 +45,10 @@ const EditProfile = () => {
       }, 1000);
     } catch (err) {
       console.log(err);
+      setError(err?.response?.data);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
   };
 
@@ -191,6 +196,7 @@ const EditProfile = () => {
       >
         Save Profile
       </button>
+      <p className="text-red-700 text-center font-bold text-xl">{error}</p>
     </div>
   );
 };
