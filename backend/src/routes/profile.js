@@ -3,6 +3,7 @@ const { userAuth } = require("../middleware/auth");
 const { validateUpdate, validatePassword } = require("../utils/validations");
 const profileRouter = express.Router();
 const bcrypt = require("bcrypt");
+const validate = require("validator");
 
 profileRouter.use("/profile", userAuth);
 
@@ -20,6 +21,14 @@ profileRouter.patch("/profile/edit", (req, res) => {
     if (!isValidUpdate) {
       throw new Error("Send Valid Updates!");
     } else {
+      if (validate.isURL(req.body.photoUrl) === false) {
+        throw new Error("Invalid URL");
+      }
+      console.log(typeof req.body.age);
+      if (isNaN(req.body.age)) {
+        throw new Error("Age must be a number");
+      }
+
       const loggedUser = req.user;
       Object.keys(req.body).forEach((key) => (loggedUser[key] = req.body[key]));
       loggedUser.save();

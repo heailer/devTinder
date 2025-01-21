@@ -3,10 +3,22 @@ const User = require("../models/user");
 const authRouter = express.Router();
 const bcrypt = require("bcrypt");
 const { validatePassword } = require("../utils/validations");
+const validate = require("validator");
 
 authRouter.post("/signUp", async (req, res) => {
   try {
     const { firstName, lastName, emailId, password } = req.body;
+    if (firstName === "" || lastName === "") {
+      throw new Error("First Name and Last Name are required");
+    }
+    if (firstName.trim().length < 3 || lastName.trim().length < 3) {
+      throw new Error(
+        "First Name and Last Name must be atleast 3 characters long"
+      );
+    }
+    if (validate.isEmail(emailId) === false) {
+      throw new Error("Invalid Email");
+    }
     const validPassword = validatePassword(password);
     if (!validPassword.isValid) {
       throw new Error(validPassword.error);

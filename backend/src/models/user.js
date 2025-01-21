@@ -24,11 +24,6 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       maxLength: 50,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error("Email is not valid");
-        }
-      },
     },
     password: {
       type: String,
@@ -42,11 +37,6 @@ const userSchema = new mongoose.Schema(
     },
     age: {
       type: Number,
-      validate(value) {
-        if (typeof value !== "number") {
-          throw new Error("Enter valid age");
-        }
-      },
     },
     gender: {
       type: String,
