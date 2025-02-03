@@ -22,7 +22,7 @@ const NavBar = () => {
       );
       console.log(res);
       dispatch(removeUser());
-      window.location.replace("/login");
+      window.location.replace("http://13.61.10.57/login");
     } catch (err) {}
   };
 
